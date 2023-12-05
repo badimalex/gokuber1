@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-rest-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golang-rest-api
+  template:
+    metadata:
+      labels:
+        app: golang-rest-api
+    spec:
+      containers:
+      - name: golang-rest-api
+        image: gcr.io/dulcet-elevator-407117/golang-rest-api
+        ports:
+        - containerPort: 8080

@@ -3,11 +3,11 @@ kind: PersistentVolume
 metadata:
   name: postgres-pv-volume
 spec:
-  storageClassName: standard  # или другой класс хранения, если требуется
+  storageClassName: standard
   capacity:
     storage: 10Gi
   accessModes:
-    - ReadWriteOnce  # Для GCE Persistent Disk
+    - ReadWriteOnce
   gcePersistentDisk:
     pdName: disk-1
     fsType: ext4
@@ -19,7 +19,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
 spec:
-  storageClassName: standard  # Тот же класс хранения, что и у PV
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:

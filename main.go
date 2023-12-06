@@ -38,7 +38,7 @@ func main() {
 			return
 		}
 
-		w.Write([]byte(fmt.Sprintf("Hello, %s", name)))
+		w.Write([]byte(fmt.Sprintf("Hello user, %s", name)))
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))

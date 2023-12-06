@@ -1,0 +1,47 @@
+name: Go Application CI
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: your_db
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '^1.16'
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Run PostgreSQL
+      run: |
+        while ! pg_isready -h localhost -p 5432 > /dev/null 2>&1; do
+          echo "Waiting for PostgreSQL to start..."
+          sleep 1
+        done
+
+    - name: Test
+      run: go test -v ./...
+      env:
+        DB_HOST: localhost
+        DB_USER: user
+        DB_PASSWORD: password
+        DB_NAME: your_db
+        DB_PORT: 5432
